@@ -1,11 +1,14 @@
 <p align="center">
   <a href="https://github.com/Confiac1563/Valkaw-Client-Fabric_NeoForge">
-    <img src="https://i.imgur.com/foMdMTA.jpeg" alt="Linked Image 2">
+    <img src="https://i.imgur.com/foMdMTA.jpeg" alt="Linked Image 2" width="96" height="96">
   </a>
   <a href="https://modrinth.com/modpack/valkaw-client">
-    <img src="https://i.imgur.com/8Nv4p2p.jpeg" alt="Linked Image 3">
+    <img src="https://i.imgur.com/8Nv4p2p.jpeg" alt="Linked Image 3" width="96" height="96">
   </a>
 </p>
+
+# IMPORTANT, MUST READ
+- I just confirmed a very strange error with VulkanMod while playing on Hypixel Skyblock, which causes the game to crash. I asked in VulkanMod's Discord, but there was no solution to resolve the issue.
 
 ## UPDATE!!!
 - Hi there! It's been a while since I last worked on this modpack. Now that I'm a university student, I don't have as much time to dedicate to updating it as I used to. 
