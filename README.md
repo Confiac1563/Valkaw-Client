@@ -1,3 +1,4 @@
+
 <div align="center">
   <img src="https://iili.io/BnXUgiF.gif">
   
@@ -44,11 +45,12 @@
 
 Valkaw Client offers two different rendering paths depending on your hardware and preferences. Choose the version that best suits your system!
 
-### 🟢 1. Sodium Edition (Recommended)
+### 1. <img src="https://github.com/user-attachments/assets/fbe72a0f-1deb-48ad-aaf6-f0aff57a9383" width="16"> Sodium Edition
+
 The standard, highly compatible optimization route using the OpenGL API. Perfect for most users and supports shaders.
 
 <details>
-  <summary><b>🛠️ Click to expand the Sodium modlist</b></summary>
+  <summary><b> Click to expand the Sodium modlist</b></summary>
   <br>
   <ul>
     <li><b>Sodium:</b> The absolute best modern rendering engine for Minecraft.</li>
@@ -61,10 +63,10 @@ The standard, highly compatible optimization route using the OpenGL API. Perfect
 
 <br>
 
-### 🔴 2. VulkanMod Edition (Maximum Raw Performance)
+### 2. <img src="https://github.com/user-attachments/assets/ee4a55c9-3f86-491b-a5de-fcf48bccf72d" width="16"> VulkanMod Edition (Maximum Raw Performance)
 A wildly powerful route that completely replaces OpenGL with the Vulkan API. Incredible for squeezing out the absolute maximum raw FPS, especially on AMD or newer GPUs (2012 or above).
 <details>
-  <summary><b>🛠️ Click to expand the VulkanMod modlist</b></summary>
+  <summary><b> Click to expand the VulkanMod modlist</b></summary>
   <br>
   <ul>
     <li><b>VulkanMod:</b> Rewrites Minecraft's renderer to use the Vulkan API, drastically reducing CPU overhead and boosting FPS.</li>
@@ -74,8 +76,6 @@ A wildly powerful route that completely replaces OpenGL with the Vulkan API. Inc
     <li><b>Beryl:</b> VulkanMod has Beryl, a mod that provides shaders like Vibrant Visual. It was created specifically to improve the realistic gaming experience with VulkanMod.</li>
   </ul>
 </details>
-
-<br>
 
 <br>
 
@@ -105,4 +105,3 @@ A wildly powerful route that completely replaces OpenGL with the Vulkan API. Inc
 
   <h3>🔗 Useful Links</h3>
   <a href="https://github.com/Confiac1563/Valkaw-Client/issues">[ 🐛 Report a Bug (GitHub) ]</a>
-</div>
