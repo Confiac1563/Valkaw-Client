@@ -23,7 +23,7 @@ jobs:
 
       # 3. Upload lên Modrinth bằng Minotaur
       - name: Upload to Modrinth
-        uses: modrinth/minotaur@v2
+        uses: modrinth/minotaur@v2.8.7
         with:
           token: ${{ secrets.MODRINTH_TOKEN }}
           project-id: 'IJyTMHoI'
