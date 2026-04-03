@@ -38,5 +38,3 @@ jobs:
           version-type: release
           # Bây giờ file đã được tải về thư mục gốc nên dòng này sẽ chạy đúng
           files: '*.mrpack' 
-          loaders: fabric
-          game-versions: 1.20.1
