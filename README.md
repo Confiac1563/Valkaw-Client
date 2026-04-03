@@ -1,25 +1,108 @@
-<p align="center">
-  <a href="https://github.com/Confiac1563/Valkaw-Client-Fabric_NeoForge">
-    <img src="https://i.imgur.com/foMdMTA.jpeg" alt="Linked Image 2" width="96" height="96">
-  </a>
-  <a href="https://modrinth.com/modpack/valkaw-client">
-    <img src="https://i.imgur.com/8Nv4p2p.jpeg" alt="Linked Image 3" width="96" height="96">
-  </a>
-</p>
+<div align="center">
+  <img src="https://iili.io/BnXUgiF.gif">
+  
+  <p><b>🚀 Maximize your Minecraft performance with the ultimate optimization modpack!</b></p>
 
-# IMPORTANT, MUST READ
-- I just confirmed a very strange error with VulkanMod while playing on Hypixel Skyblock, which causes the game to crash. I asked in VulkanMod's Discord, but there was no solution to resolve the issue.
+  <div>
+    <a href="https://github.com/Confiac1563/Valkaw-Client"><img src="https://img.shields.io/badge/Page-Github?style=flat&logo=GitHub&logoColor=white&logoSize=96&label=GitHub&labelColor=grey&color=009C0F&link=https%3A%2F%2Fgithub.com%2FConfiac1563%2FValkaw-Client"></a>
+    <a href="https://modrinth.com/modpack/valkaw-client"><img src="https://img.shields.io/badge/Page-modrinth?style=flat&logo=modrinth&logoColor=dark_green&logoSize=96&label=Modrinth&labelColor=grey&color=009C0F&link=https%3A%2F%2Fmodrinth.com%2Fmodpack%2Fvalkaw-client"></a>
+  </div>
+</div>
 
-## UPDATE!!!
-- Hi there! It's been a while since I last worked on this modpack. Now that I'm a university student, I don't have as much time to dedicate to updating it as I used to. 
-- I'll be updating it gradually, about once a month when a new and stable version is available, so I can keep a balance between my studies and this project. 
-- Thank you for playing with the modpack; your support motivates me to keep going!
-## Information
-- Valkaw Client is a "Optimize Client for Fabric and NeoForge" designed for low-ends PC, forked from [Sliwed Optimize](https://modrinth.com/modpack/sliwed-optimize), ~~with many support features like OptiFine such as CEM, CTM,... Bringing you a better experience with resourcepack~~ with support from new mods, significantly increased and smoother performance.
-- Version support: Fabric and NeoForge from **1.19.4** to latest version!!
-- Have a issue with this modpack? Click the "Issues" button on the modpack's Github page or join my Discord server for faster support.
-## Donation?
-- I make this modpack for free, I don't need support. I do it for everyone who has a low-end PC but wants to play the game smoothly (I'm also a part, bruh).
-## License
-- This modpack is covered under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
-- If you use this modpack to make videos or similar, please clearly credit the modpack author ^^ thank you for this act of respect.
+<br>
+
+---
+
+## 🎯 Introduction
+
+**Valkaw Client** is a carefully curated Fabric modpack designed with a single goal in mind: **pushing your Minecraft performance to the absolute limit.** Whether you are playing on a low-end laptop or a high-end gaming beast, this modpack ensures the smoothest, stutter-free experience possible while keeping the core game completely untouched.
+
+---
+
+## ✨ Key Features
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <h3>⚡ High FPS</h3>
+      <p>Powered by the best rendering engines available on Fabric, easily doubling or tripling your vanilla framerates.</p>
+    </td>
+    <td align="center" width="33%">
+      <h3>🧠 Memory Optimized</h3>
+      <p>Dramatically reduces RAM usage and CPU load, eliminating those annoying micro-stutters and lag spikes.</p>
+    </td>
+    <td align="center" width="33%">
+      <h3>🌍 Vanilla Friendly</h3>
+      <p>100% client-side. Play on any server (Hypixel, 2b2t, SMPs) safely without risking bans or rejections.</p>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 📦 Core Optimization Mods
+
+Valkaw Client offers two different rendering paths depending on your hardware and preferences. Choose the version that best suits your system!
+
+### 🟢 1. Sodium Edition (Recommended)
+The standard, highly compatible optimization route using the OpenGL API. Perfect for most users and supports shaders.
+
+<details>
+  <summary><b>🛠️ Click to expand the Sodium modlist</b></summary>
+  <br>
+  <ul>
+    <li><b>Sodium:</b> The absolute best modern rendering engine for Minecraft.</li>
+    <li><b>Lithium:</b> General-purpose optimization for game physics, AI, and block ticking.</li>
+    <li><b>FerriteCore:</b> Significantly reduces the memory footprint of the game.</li>
+    <li><b>EntityCulling:</b> Skips rendering hidden entities/tiles to boost performance.</li>
+    <li><b>Iris Shaders:</b> Seamless, high-performance shader support (the best OptiFine alternative).</li>
+  </ul>
+</details>
+
+<br>
+
+### 🔴 2. VulkanMod Edition (Maximum Raw Performance)
+A wildly powerful route that completely replaces OpenGL with the Vulkan API. Incredible for squeezing out the absolute maximum raw FPS, especially on AMD or newer GPUs (2012 or above).
+<details>
+  <summary><b>🛠️ Click to expand the VulkanMod modlist</b></summary>
+  <br>
+  <ul>
+    <li><b>VulkanMod:</b> Rewrites Minecraft's renderer to use the Vulkan API, drastically reducing CPU overhead and boosting FPS.</li>
+    <li><b>Lithium:</b> General-purpose optimization for game physics, AI, and block ticking.</li>
+    <li><b>FerriteCore:</b> Significantly reduces the memory footprint of the game.</li>
+    <li><b>EntityCulling:</b> Skips rendering hidden entities/tiles to boost performance.</li>
+    <li><b>Beryl:</b> VulkanMod has Beryl, a mod that provides shaders like Vibrant Visual. It was created specifically to improve the realistic gaming experience with VulkanMod.</li>
+  </ul>
+</details>
+
+<br>
+
+<br>
+
+---
+
+## 📥 Installation Guide
+
+### 🟢 Modrinth App (Recommended)
+1. Open the **Modrinth App**.
+2. Search for **Valkaw Client**.
+3. Select your preferred edition (Sodium or VulkanMod).
+4. Click **Install** and hit play!
+
+### 🔵 Other Launchers (Prism, MultiMC, CurseForge)
+1. Go to the **Versions** tab and download the `.mrpack` file for the edition you want.
+2. Drag and drop the file into your launcher (or select *Import from Modrinth / zip*).
+3. Wait for the download to finish and launch the game.
+
+---
+
+<div align="center">
+  <blockquote>
+    ⚠️ <b>Note:</b> We constantly update the modpack to ensure compatibility and maximum performance. If you experience crashes, please open an issue on our GitHub instead of using the comment section!
+  </blockquote>
+
+  <br>
+
+  <h3>🔗 Useful Links</h3>
+  <a href="https://github.com/Confiac1563/Valkaw-Client/issues">[ 🐛 Report a Bug (GitHub) ]</a>
+</div>
