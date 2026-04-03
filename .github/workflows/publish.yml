@@ -22,4 +22,4 @@ jobs:
           version: ${{ github.event.release.tag_name }}
           
           version-type: release
-          files: '*.mrpack'
+          files: '**/*.mrpack'
