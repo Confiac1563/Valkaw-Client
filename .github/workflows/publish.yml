@@ -3,7 +3,6 @@ name: Publish Modpack to Modrinth
 on:
   release:
     types: [published]
-  workflow_dispatch:
 
 jobs:
   publish:
@@ -12,6 +11,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # BƯỚC 1: Phân tích Tag theo quy tắc <loader-type>_<gameVersion>_<modpackVersion>
+      - name: Parse Version Info from Tag
+        id: parse_tag
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          
+          # Lấy phần đầu tiên trước dấu gạch dưới (ví dụ: fabric-vulkan)
+          FIRST_PART=$(echo $TAG | cut -d'_' -f1)
+          
+          # Tách Loader thực sự (fabric) và Type (vulkan/sodium) nếu có
+          # Nếu không có dấu '-' thì LOADER = FIRST_PART, TYPE sẽ rỗng
+          LOADER=$(echo $FIRST_PART | cut -d'-' -f1)
+          TYPE=$(echo $FIRST_PART | cut -d'-' -f2)
+          
+          # Lấy Game Version (phần thứ 2 sau dấu gạch dưới)
+          GV=$(echo $TAG | cut -d'_' -f2)
+          
+          echo "ld=$LOADER" >> $GITHUB_OUTPUT
+          echo "gv=$GV" >> $GITHUB_OUTPUT
+          echo "tp=$TYPE" >> $GITHUB_OUTPUT
+
+      # BƯỚC 2: Tải file .mrpack từ Release vừa tạo
       - name: Download .mrpack from Release
         uses: actions/github-script@v7
         with:
@@ -19,10 +40,10 @@ jobs:
             const { data: assets } = await github.rest.repos.listReleaseAssets({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              release_id: context.payload.release ? context.payload.release.id : (await github.rest.repos.getLatestRelease({owner: context.repo.owner, repo: context.repo.repo})).data.id
+              release_id: context.payload.release.id
             });
             const asset = assets.find(a => a.name.endsWith('.mrpack'));
-            if (!asset) throw new Error("Không tìm thấy file .mrpack nào trong Release!");
+            if (!asset) throw new Error("Không tìm thấy file .mrpack trong Release này!");
             const fs = require('fs');
             const data = await github.rest.repos.getReleaseAsset({
               owner: context.repo.owner,
@@ -32,18 +53,22 @@ jobs:
             });
             fs.writeFileSync(asset.name, Buffer.from(data.data));
 
-      - name: Publish Modpack to Modrinth
+      # BƯỚC 3: Đẩy lên Modrinth
+      - name: Publish to Modrinth
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: 'IJyTMHoI'
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          name: ${{ github.event.release.name || 'Manual Upload' }}
-          version: ${{ github.event.release.tag_name || github.ref_name }}
+          
+          # Tên hiển thị trên Modrinth: Ví dụ "Update 1.0 [vulkan]"
+          name: "${{ github.event.release.name }}${{ steps.parse_tag.outputs.tp != '' && format(' [{0}]', steps.parse_tag.outputs.tp) || '' }}"
+          
+          version: ${{ github.event.release.tag_name }}
+          version-body: ${{ github.event.release.body }}
           version-type: release
+          
           files: '*.mrpack'
           
-          # THAY THẾ TỰ ĐỘNG: 
-          # mc-publish sẽ cố gắng tự đọc metadata từ file .mrpack 
-          # nếu bạn để trống hoặc dùng cấu hình 'auto'
-          loaders: 'auto'
-          game-versions: 'auto'
+          # Dữ liệu tự động bóc tách từ Tag
+          loaders: ${{ steps.parse_tag.outputs.ld }}
+          game-versions: ${{ steps.parse_tag.outputs.gv }}
