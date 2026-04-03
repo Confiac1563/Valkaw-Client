@@ -2,8 +2,9 @@ name: Publish Modpack to Modrinth
 
 on:
   release:
-    types: [published] # Chỉ kích hoạt khi bạn bấm nút Publish Release trên web
+    types: [published]
   workflow_dispatch:
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -11,15 +12,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Publish Modpack
+      # BƯỚC QUAN TRỌNG: Tải file từ Release vừa tạo về máy chủ GitHub Action
+      - name: Download Release Asset
+        uses: dsayling/download-release-asset@v1
+        with:
+          # Lấy chính cái release vừa kích hoạt workflow này
+          releaseId: ${{ github.event.release.id }}
+          # Tìm file có đuôi .mrpack trong Release đó
+          assetName: '*.mrpack' 
+          # Tải về thư mục hiện tại
+          downloadPath: './'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Modpack to Modrinth
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: 'IJyTMHoI'
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           
-          # Lấy chính xác tên và tag bạn vừa gõ trên giao diện web GitHub
+          # Lấy thông tin từ Release của GitHub
           name: ${{ github.event.release.name }}
           version: ${{ github.event.release.tag_name }}
           
           version-type: release
-          files: '**/*.mrpack'
+          # Bây giờ file đã được tải về thư mục gốc nên dòng này sẽ chạy đúng
+          files: '*.mrpack' 
+          loaders: fabric
+          game-versions: 1.20.1
