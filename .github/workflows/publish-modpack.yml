@@ -1,9 +1,8 @@
 name: Publish Modpack to Modrinth
 
 on:
-  push:
-    tags:
-      - "v*" # Workflow sẽ tự động chạy khi bạn tạo và push một tag bắt đầu bằng 'v' (VD: v1.0.0)
+  release:
+    types: [published] # Chỉ kích hoạt khi bạn bấm nút Publish Release trên web
 
 jobs:
   publish:
@@ -12,27 +11,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # --- BƯỚC BUILD (TUỲ CHỌN) ---
-      # Bỏ comment (xóa dấu #) ở các dòng dưới nếu bạn dùng packwiz để tạo file .mrpack
-      # - name: Setup and Build with packwiz
-      #   run: |
-      #     go install github.com/packwiz/packwiz@latest
-      #     packwiz modrinth export
-      # -----------------------------
-
       - name: Publish Modpack
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          # Cấu hình Modrinth
-          modrinth-id: 'IJyTMHoI' # Thay bằng ID dự án của bạn (VD: AANobbMI)
+          modrinth-id: 'IJyTMHoI'
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           
-          # Tên và phiên bản
-          name: 'Release ${{ github.ref_name }}'
-          version: ${{ github.ref_name }} # Tự động lấy tên tag (VD: v1.0.0) làm phiên bản
-          version-type: release # Có thể đổi thành 'beta' hoặc 'alpha' nếu cần
+          # Lấy chính xác tên và tag bạn vừa gõ trên giao diện web GitHub
+          name: ${{ github.event.release.name }}
+          version: ${{ github.event.release.tag_name }}
           
-          # Đường dẫn đến file modpack
-          files: '*.mrpack' # Sẽ tự động tìm file .mrpack trong thư mục gốc
-          
-          # Cấu hình Loader (X
+          version-type: release
+          files: '*.mrpack'
