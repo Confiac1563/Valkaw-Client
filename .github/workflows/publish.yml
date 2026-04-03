@@ -4,86 +4,88 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      manual_tag:
+        description: 'Bỏ trống để lấy bản mới nhất'
+        required: false
+        default: ''
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Parse Version Info from Tag
-        id: parse_tag
-        run: |
-          TAG="${{ github.event.release.tag_name || github.ref_name }}"
-          FIRST_PART=$(echo $TAG | cut -d'_' -f1)
-          LOADER=$(echo $FIRST_PART | cut -d'-' -f1)
-          TYPE=$(echo $FIRST_PART | cut -d'-' -f2)
-          GV=$(echo $TAG | cut -d'_' -f2)
-          
-          echo "ld=$LOADER" >> $GITHUB_OUTPUT
-          echo "gv=$GV" >> $GITHUB_OUTPUT
-          echo "tp=$TYPE" >> $GITHUB_OUTPUT
-
-      - name: Download .mrpack from Release
+      - name: Process Information and Download
+        id: data
         uses: actions/github-script@v7
         with:
           script: |
-            let release_id;
-            let release_name;
-            let release_body;
+            let release;
+            const manualTag = "${{ github.event.inputs.manual_tag }}";
 
             try {
               if (context.payload.release) {
-                release_id = context.payload.release.id;
-                release_name = context.payload.release.name;
-                release_body = context.payload.release.body;
+                release = context.payload.release;
+              } else if (manualTag) {
+                const res = await github.rest.repos.getReleaseByTag({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  tag: manualTag
+                });
+                release = res.data;
               } else {
-                const latestRelease = await github.rest.repos.getLatestRelease({
+                const res = await github.rest.repos.getLatestRelease({
                   owner: context.repo.owner,
                   repo: context.repo.repo
                 });
-                release_id = latestRelease.data.id;
-                release_name = latestRelease.data.name;
-                release_body = latestRelease.data.body;
+                release = res.data;
               }
+
+              const tag = release.tag_name;
+              const parts = tag.split('_');
+              const firstPart = parts[0].split('-');
+              
+              core.setOutput('ld', firstPart[0]);
+              core.setOutput('tp', firstPart[1] || '');
+              core.setOutput('gv', parts[1]);
+              core.setOutput('tag', tag);
+              core.setOutput('rel_name', release.name);
+              core.setOutput('rel_body', release.body);
 
               const { data: assets } = await github.rest.repos.listReleaseAssets({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                release_id: release_id
+                release_id: release.id
               });
 
               const asset = assets.find(a => a.name.endsWith('.mrpack'));
               if (!asset) throw new Error("No .mrpack file found!");
 
-              const data = await github.rest.repos.getReleaseAsset({
+              const fileData = await github.rest.repos.getReleaseAsset({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 asset_id: asset.id,
                 headers: { accept: 'application/octet-stream' }
               });
 
-              const fs = require('fs');
-              fs.writeFileSync(asset.name, Buffer.from(data.data));
-              
-              core.setOutput('rel_name', release_name);
-              core.setOutput('rel_body', release_body);
-
+              require('fs').writeFileSync(asset.name, Buffer.from(fileData.data));
             } catch (error) {
               core.setFailed(error.message);
             }
-        id: download_info
 
       - name: Publish to Modrinth
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: 'IJyTMHoI'
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          name: "${{ steps.download_info.outputs.rel_name }}${{ steps.parse_tag.outputs.tp != '' && format(' [{0}]', steps.parse_tag.outputs.tp) || '' }}"
-          version: ${{ github.event.release.tag_name || github.ref_name }}
-          version-body: ${{ steps.download_info.outputs.rel_body }}
+          name: "${{ steps.data.outputs.rel_name }}${{ steps.data.outputs.tp != '' && format(' [{0}]', steps.data.outputs.tp) || '' }}"
+          version: ${{ steps.data.outputs.tag }}
+          changelog: ${{ steps.data.outputs.rel_body }}
           version-type: release
           files: '*.mrpack'
-          loaders: ${{ steps.parse_tag.outputs.ld }}
-          game-versions: ${{ steps.parse_tag.outputs.gv }}
+          loaders: ${{ steps.data.outputs.ld }}
+          game-versions: ${{ steps.data.outputs.gv }}
