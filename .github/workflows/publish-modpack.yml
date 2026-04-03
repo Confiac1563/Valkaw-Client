@@ -1,35 +1,38 @@
 name: Publish Modpack to Modrinth
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*" # Workflow sẽ tự động chạy khi bạn tạo và push một tag bắt đầu bằng 'v' (VD: v1.0.0)
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 1. Cài đặt Packwiz CLI để đóng gói
-      - name: Install Packwiz
-        run: |
-          go install github.com/packwiz/packwiz@latest
-          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+      # --- BƯỚC BUILD (TUỲ CHỌN) ---
+      # Bỏ comment (xóa dấu #) ở các dòng dưới nếu bạn dùng packwiz để tạo file .mrpack
+      # - name: Setup and Build with packwiz
+      #   run: |
+      #     go install github.com/packwiz/packwiz@latest
+      #     packwiz modrinth export
+      # -----------------------------
 
-      # 2. Tạo file .mrpack (Thay 'pack.toml' bằng file của bạn nếu khác tên)
-      - name: Export Modpack
-        run: packwiz modrinth export -o modpack.mrpack
-
-      # 3. Upload lên Modrinth bằng Minotaur
-      - name: Upload to Modrinth
-        uses: modrinth/minotaur@v2.9.0
+      - name: Publish Modpack
+        uses: Kir-Antipov/mc-publish@v3.3
         with:
-          token: ${{ secrets.MODRINTH_TOKEN }}
-          project-id: 'IJyTMHoI'
-          version-number: ${{ github.event.release.tag_name }}
-          version-title: "Phiên bản ${{ github.event.release.tag_name }}"
-          version-body: ${{ github.event.release.body }}
-          file: modpack.mrpack
-          # Với Modpack, Modrinth thường tự nhận diện loaders và game-versions 
-          # từ file .mrpack, nhưng ghi đè ở đây cho chắc chắn:
+          # Cấu hình Modrinth
+          modrinth-id: 'IJyTMHoI' # Thay bằng ID dự án của bạn (VD: AANobbMI)
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          
+          # Tên và phiên bản
+          name: 'Release ${{ github.ref_name }}'
+          version: ${{ github.ref_name }} # Tự động lấy tên tag (VD: v1.0.0) làm phiên bản
+          version-type: release # Có thể đổi thành 'beta' hoặc 'alpha' nếu cần
+          
+          # Đường dẫn đến file modpack
+          files: '*.mrpack' # Sẽ tự động tìm file .mrpack trong thư mục gốc
+          
+          # Cấu hình Loader (X
