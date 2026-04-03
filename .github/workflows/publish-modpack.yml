@@ -1,0 +1,35 @@
+name: Publish Modpack to Modrinth
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 1. Cài đặt Packwiz CLI để đóng gói
+      - name: Install Packwiz
+        run: |
+          go install github.com/packwiz/packwiz@latest
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+
+      # 2. Tạo file .mrpack (Thay 'pack.toml' bằng file của bạn nếu khác tên)
+      - name: Export Modpack
+        run: packwiz modrinth export -o modpack.mrpack
+
+      # 3. Upload lên Modrinth bằng Minotaur
+      - name: Upload to Modrinth
+        uses: modrinth/minotaur@v2
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project-id: 'IJyTMHoI'
+          version-number: ${{ github.event.release.tag_name }}
+          version-title: "Phiên bản ${{ github.event.release.tag_name }}"
+          version-body: ${{ github.event.release.body }}
+          file: modpack.mrpack
+          # Với Modpack, Modrinth thường tự nhận diện loaders và game-versions 
+          # từ file .mrpack, nhưng ghi đè ở đây cho chắc chắn:
