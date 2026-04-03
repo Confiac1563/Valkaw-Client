@@ -12,29 +12,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # BƯỚC QUAN TRỌNG: Tải file từ Release vừa tạo về máy chủ GitHub Action
-      - name: Download Release Asset
-        uses: dsayling/download-release-asset@v1
+      - name: Download .mrpack from Release
+        uses: actions/github-script@v7
         with:
-          # Lấy chính cái release vừa kích hoạt workflow này
-          releaseId: ${{ github.event.release.id }}
-          # Tìm file có đuôi .mrpack trong Release đó
-          assetName: '*.mrpack' 
-          # Tải về thư mục hiện tại
-          downloadPath: './'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: assets } = await github.rest.repos.listReleaseAssets({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: context.payload.release ? context.payload.release.id : (await github.rest.repos.getLatestRelease({owner: context.repo.owner, repo: context.repo.repo})).data.id
+            });
+            const asset = assets.find(a => a.name.endsWith('.mrpack'));
+            if (!asset) throw new Error("Không tìm thấy file .mrpack nào trong Release!");
+            const fs = require('fs');
+            const data = await github.rest.repos.getReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              asset_id: asset.id,
+              headers: { accept: 'application/octet-stream' }
+            });
+            fs.writeFileSync(asset.name, Buffer.from(data.data));
 
       - name: Publish Modpack to Modrinth
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: 'IJyTMHoI'
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          
-          # Lấy thông tin từ Release của GitHub
-          name: ${{ github.event.release.name }}
-          version: ${{ github.event.release.tag_name }}
-          
+          name: ${{ github.event.release.name || 'Manual Upload' }}
+          version: ${{ github.event.release.tag_name || github.ref_name }}
           version-type: release
-          # Bây giờ file đã được tải về thư mục gốc nên dòng này sẽ chạy đúng
-          files: '*.mrpack' 
+          files: '*.mrpack'
+          
+          # THAY THẾ TỰ ĐỘNG: 
+          # mc-publish sẽ cố gắng tự đọc metadata từ file .mrpack 
+          # nếu bạn để trống hoặc dùng cấu hình 'auto'
+          loaders: 'auto'
+          game-versions: 'auto'
