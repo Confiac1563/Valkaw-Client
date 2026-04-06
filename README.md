@@ -19,6 +19,10 @@
 
 **Valkaw Client** is a carefully curated Fabric modpack designed with a single goal in mind: **pushing your Minecraft performance to the absolute limit.** Whether you are playing on a low-end laptop or a high-end gaming beast, this modpack ensures the smoothest, stutter-free experience possible while keeping the core game completely untouched.
 
+<div align="center">
+  <img width="960" height="540" alt="image" src="https://github.com/user-attachments/assets/86987bb4-cc30-4fe3-b3b3-221e50c26f87" />
+</div>
+
 ---
 
 ## ✨ Key Features
