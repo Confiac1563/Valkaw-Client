@@ -89,12 +89,16 @@ A wildly powerful route that completely replaces OpenGL with the Vulkan API. Inc
 3. Select your preferred edition (Sodium or VulkanMod).
 4. Click **Install** and hit play!
 
-### 🔵 Other Launchers (Prism, MultiMC, CurseForge)
+### 🔵 MultiMC Launchers & forks (Prism, PolyMC,...)
 1. Go to the **Versions** tab and download the `.mrpack` file for the edition you want.
 2. Drag and drop the file into your launcher (or select *Import from Modrinth / zip*).
 3. Wait for the download to finish and launch the game.
 
----
+### 🟡 CurseForge and other launchers (Legacy Launcher, Titan Launcher,...)
+1. Not supported CurseForge, the only way is to use the installation method below.
+2. The best way is to download and extract the ZIP file from the GitHub release, then copy and paste it into the instance you want.
+3. Notice: you’ll need to update everything manually. Use PolyMC if you don’t have a Minecraft account for automatic updates.
+--- 
 
 <div align="center">
   <blockquote>
