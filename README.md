@@ -96,9 +96,9 @@ A wildly powerful route that completely replaces OpenGL with the Vulkan API. Inc
 3. Wait for the download to finish and launch the game.
 
 ### 🟡 CurseForge and other launchers (Legacy Launcher, Titan Launcher,...)
-1. Not supported CurseForge, the only way is to use the installation method below.
-2. The best way is to download and extract the ZIP file from the GitHub release, then copy and paste it into the instance you want.
-3. Notice: you’ll need to update everything manually. Use PolyMC if you don’t have a Minecraft account for automatic updates.
+1. Not supported <b>CurseForge</b>, the only way is to use the installation method below.
+2. The best way is to <b>download and extract the ZIP file</b> from the <b>GitHub release</b>, then copy and paste it into the instance you want.
+3. Notice: you’ll need to update everything <b>manually</b>. Use <b>PolyMC</b> if you don’t have a Minecraft account for automatic updates.
 --- 
 
 <div align="center">
