@@ -89,7 +89,7 @@ A wildly powerful route that completely replaces OpenGL with the Vulkan API. Inc
 ## 📥 Installation Guide
 
 ### 🟢 Modrinth App, MultiMC, Prims Launcher (Recommended)
-1. Open the Open the launcher that supports the Modrinth modpack format.
+1. Open the launcher that supports the Modrinth modpack format.
 2. Search for **Valkaw Client**.
 3. Choose your preferred edition, either Sodium or VulkanMod, and the Minecraft version you want to play.
 4. Click **Install** and hit play!
